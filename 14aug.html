@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>14 August — Pakistan Independence Day Animation</title>
+<style>
+  /* ===============================
+     14 August — YouTube-ready Scene
+     Made with pure HTML/CSS + tiny JS
+     ---------------------------------
+     Tips:
+     1) Press the ▶ Play button to start, ⏸ to pause.
+     2) Click 🌙 Night/☀ Day to toggle a night sky for fireworks.
+     3) For YouTube Shorts, add the class "vertical" to <main id="stage">.
+        For normal 16:9 video, keep it as "horizontal".
+     4) Edit the headline/subtext inside <h1> and <p class="subtitle">.
+     5) Screen record in 1080p for best results.
+     =============================== */
+
+  :root{
+    --green: #01411C;           /* Pakistan flag green */
+    --white: #ffffff;
+    --gold: #ffd166;
+    --accent: #00e5a8;          /* subtle neon */
+    --bg: #0b1220;              /* night sky */
+    --text: #e8f5f0;
+    --glow: 0 0 25px rgba(0,229,168,.55), 0 0 45px rgba(0,229,168,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji";
+    background: var(--bg);
+    color: var(--text);
+    overflow:hidden;
+  }
+
+  /* Stage keeps a fixed cinematic aspect-ratio for clean captures */
+  #wrap{height:100%; display:grid; place-items:center;}
+  main#stage{
+    position:relative;
+    width:min(92vw, 1600px); /* overall max width */
+    aspect-ratio:16/9;       /* change to 9/16 by switching .vertical */
+    border-radius:24px;
+    overflow:hidden;
+    background:
+      radial-gradient(1200px 600px at 70% 10%, rgba(0,255,180,.10), transparent 60%),
+      radial-gradient(800px 400px at 10% 0%, rgba(0,180,255,.08), transparent 60%),
+      linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.5)),
+      var(--bg);
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06);
+    isolation:isolate;
+  }
+  main#stage.vertical{aspect-ratio:9/16; width:min(92vw, 800px);} /* Shorts mode */
+
+  /* Floating glow particles (CSS only) */
+  .glow{position:absolute; inset:0; pointer-events:none;}
+  .glow i{position:absolute; width:6px; height:6px; border-radius:50%;
+          background:rgba(255,255,255,.9); filter:blur(0.5px);
+          animation: float 14s linear infinite; opacity:.8;}
+  .glow i:nth-child(odd){animation-duration:18s}
+  @keyframes float{from{transform:translateY(100%)} to{transform:translateY(-120%)}}
+
+  /* Headline area */
+  .center{
+    position:absolute; inset:0; display:grid; place-items:center; text-align:center;
+    padding: clamp(16px, 3vw, 32px);
+  }
+  h1{
+    margin:0 0 .1em;
+    font-size: clamp(28px, 7vw, 92px);
+    letter-spacing:.02em; line-height:1.05; font-weight:800;
+    text-transform:uppercase;
+    text-shadow: 0 4px 24px rgba(0,0,0,.55);
+  }
+  .accent{color: var(--accent); filter: drop-shadow(var(--glow));}
+  .subtitle{margin:.2em 0 0; font-size: clamp(14px, 2.5vw, 28px); opacity:.9}
+
+  /* Typewriter caret effect */
+  .type{
+    display:inline-block; border-right: 3px solid var(--accent);
+    white-space:nowrap; overflow:hidden;
+    animation: typing 5s steps(30,end) 1 both, blink 1s step-end infinite;
+  }
+  @keyframes typing{ from{ width:0 } to{ width: 100% } }
+  @keyframes blink{ 50%{ border-color: transparent } }
+
+  /* Pakistan Flag — CSS build */
+  .flag-wrap{ position:absolute; left:clamp(12px, 4vw, 48px); bottom:clamp(12px, 3vw, 40px); display:flex; align-items:flex-end; gap:12px; }
+  .pole{ width:10px; height:220px; background:linear-gradient(180deg,#c7c7c7,#9b9b9b 60%, #777);
+         border-radius:999px; box-shadow: inset 0 0 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.35); }
+  .flag{
+    position:relative; width:320px; height:200px; background: var(--white);
+    border-radius:4px; overflow:hidden; box-shadow: 0 10px 25px rgba(0,0,0,.45);
+  }
+  .flag::before{ /* green field */
+    content:""; position:absolute; left:25%; top:0; bottom:0; right:0; background: var(--green);
+    /* wavy cloth effect */
+    background-image:
+      radial-gradient(200px 30px at 60% 20%, rgba(255,255,255,.08), transparent 60%),
+      radial-gradient(240px 40px at 70% 60%, rgba(255,255,255,.08), transparent 60%),
+      linear-gradient( -75deg, rgba(255,255,255,.08) 0 5%, transparent 5% 10%, rgba(0,0,0,.08) 10% 15%, transparent 15% 20%, rgba(255,255,255,.06) 20% 25%, transparent 25% 30%);
+    background-blend-mode: screen;
+    animation: wave 3.3s ease-in-out infinite;
+  }
+  @keyframes wave{
+    0%,100%{transform: skewY(-1.2deg) translateX(0)}
+    50%{transform: skewY(1.2deg) translateX(-6px)}
+  }
+  /* Crescent */
+  .crescent{ position:absolute; left:47%; top:50%; width:96px; height:96px; transform:translate(-50%,-50%);}
+  .crescent::before{content:""; position:absolute; inset:0; border-radius:50%; background:var(--white);} 
+  .crescent::after{content:""; position:absolute; inset:0; left:12px; top:6px; width:96px; height:96px; border-radius:50%; background:var(--green);} 
+  /* Star */
+  .star{ position:absolute; left:62%; top:37%; width:0; height:0; border-right: 18px solid transparent; border-bottom: 12px solid var(--white); border-left: 18px solid transparent;
+         transform: rotate(35deg); }
+  .star:before{ border-bottom: 14px solid var(--white); border-left: 5px solid transparent; border-right: 5px solid transparent; position:absolute; height:0; width:0; top:-9px; left:-11px; content:""; transform: rotate(-35deg); }
+  .star:after{ position:absolute; top:1px; left:-18px; width:0; height:0; border-right: 18px solid transparent; border-bottom: 12px solid var(--white); border-left: 18px solid transparent; transform: rotate(-70deg); content:""; }
+
+  /* Fireworks (pure CSS box-shadow trick) */
+  .fireworks{ position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen; }
+  .fireworks .burst{ position:absolute; width:4px; height:4px; border-radius:50%; background: transparent; box-shadow: 0 0 var(--white); animation: explode 1.8s ease-out infinite; }
+  /* Place bursts */
+  .burst.b1{ left:20%; top:25%; animation-delay:.2s }
+  .burst.b2{ left:48%; top:18%; animation-delay:.8s }
+  .burst.b3{ left:78%; top:30%; animation-delay:1.2s }
+  .burst.b4{ left:65%; top:12%; animation-delay:1.6s }
+
+  /* Generate many sparks via multiple box-shadows */
+  @keyframes explode{
+    0%{ box-shadow: 0 0 0 0 rgba(255,255,255,.0); transform: scale(.4); opacity:0 }
+    15%{ opacity:1 }
+    100%{
+      transform: scale(1);
+      opacity:0;
+      /* 24 "+" sparks positioned around */
+      box-shadow:
+       0 -60px 0 2px #fff,
+       52px -30px 0 2px #fff,
+       60px 0 0 2px #fff,
+       52px 30px 0 2px #fff,
+       0 60px 0 2px #fff,
+       -52px 30px 0 2px #fff,
+       -60px 0 0 2px #fff,
+       -52px -30px 0 2px #fff,
+       /* small in-betweens */
+       0 -35px 0 1px #9ff,
+       30px -17px 0 1px #9ff,
+       35px 0 0 1px #9ff,
+       30px 17px 0 1px #9ff,
+       0 35px 0 1px #9ff,
+       -30px 17px 0 1px #9ff,
+       -35px 0 0 1px #9ff,
+       -30px -17px 0 1px #9ff,
+       /* color pops */
+       0 -46px 0 2px #7fffd4,
+       40px -23px 0 2px #7fffd4,
+       46px 0 0 2px #7fffd4,
+       40px 23px 0 2px #7fffd4,
+       0 46px 0 2px #7fffd4,
+       -40px 23px 0 2px #7fffd4,
+       -46px 0 0 2px #7fffd4,
+       -40px -23px 0 2px #7fffd4;
+    }
+  }
+
+  /* Controls */
+  .controls{ position:absolute; right:14px; bottom:14px; display:flex; gap:10px; z-index:9; }
+  .btn{ appearance:none; border:none; padding:10px 16px; border-radius:999px; font-weight:700; cursor:pointer; 
+        background:rgba(255,255,255,.1); color:#fff; backdrop-filter: blur(6px);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,.15), 0 4px 12px rgba(0,0,0,.35);
+  }
+  .btn:hover{ box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), 0 6px 18px rgba(0,0,0,.45); transform: translateY(-1px); }
+
+  /* Pause state */
+  .paused *{ animation-play-state: paused !important; }
+
+  /* Day mode (less contrast) */
+  main#stage.day{
+    background:
+      radial-gradient(900px 400px at 70% 10%, rgba(0,229,168,.15), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.7), rgba(135,206,235,.8) 50%, rgba(135,206,235,.9));
+    color:#0b2233;
+  }
+  main#stage.day .subtitle{ opacity:.8 }
+  main#stage.day .fireworks{ display:none }
+
+  /* Watermark / credit area (optional — edit or hide) */
+  .credit{ position:absolute; left:14px; top:14px; font-size:14px; opacity:.7; }
+  .credit strong{ color: var(--accent) }
+
+</style>
+</head>
+<body>
+<div id="wrap">
+  <!-- Switch to class="vertical" on #stage for Shorts (9:16) -->
+  <main id="stage" class="horizontal">
+
+    <!-- Floating glow particles -->
+    <div class="glow" aria-hidden="true">
+      <!-- Generate particles in JS; these are placeholders if JS disabled -->
+      <i style="left:5%; animation-delay:.2s"></i>
+      <i style="left:22%; animation-delay:1.2s"></i>
+      <i style="left:44%; animation-delay:.6s"></i>
+      <i style="left:68%; animation-delay:1.6s"></i>
+      <i style="left:85%; animation-delay:.9s"></i>
+    </div>
+
+    <!-- Headline + sub -->
+    <section class="center">
+      <div>
+        <h1>
+          <span class="accent">14 August</span> — Happy Independence Day
+        </h1>
+        <p class="subtitle">
+          <span class="type">Pakistan Zindabad • Unity • Faith • Discipline</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Fireworks for night mode -->
+    <div class="fireworks" aria-hidden="true">
+      <span class="burst b1"></span>
+      <span class="burst b2"></span>
+      <span class="burst b3"></span>
+      <span class="burst b4"></span>
+    </div>
+
+    <!-- Flag + pole -->
+    <div class="flag-wrap">
+      <div class="pole" aria-hidden="true"></div>
+      <div class="flag" role="img" aria-label="Flag of Pakistan">
+        <i class="crescent" aria-hidden="true"></i>
+        <i class="star" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn" id="togglePlay">▶ Play</button>
+      <button class="btn" id="toggleMode">🌙 Night</button>
+      <button class="btn" id="toggleAspect">⇄ Aspect</button>
+    </div>
+
+    <div class="credit">Made for <strong>14 August</strong> • Record in 1080p</div>
+
+  </main>
+</div>
+
+<script>
+  const stage = document.getElementById('stage');
+  const btnPlay = document.getElementById('togglePlay');
+  const btnMode = document.getElementById('toggleMode');
+  const btnAspect = document.getElementById('toggleAspect');
+  let playing = false;
+
+  // Better experience: auto-create many glow particles
+  const glow = document.querySelector('.glow');
+  for(let i=0;i<40;i++){
+    const p = document.createElement('i');
+    p.style.left = Math.random()*100 + '%';
+    p.style.animationDelay = (Math.random()*18).toFixed(2)+'s';
+    p.style.opacity = (0.4 + Math.random()*0.6).toFixed(2);
+    p.style.width = p.style.height = (4 + Math.random()*6).toFixed(0)+'px';
+    glow.appendChild(p);
+  }
+
+  function updateButtons(){
+    btnPlay.textContent = stage.classList.contains('paused') ? '▶ Play' : '⏸ Pause';
+    btnMode.textContent = stage.classList.contains('day') ? '🌙 Night' : '☀ Day';
+    btnAspect.textContent = stage.classList.contains('vertical') ? '⇄ 16:9' : '⇄ 9:16';
+  }
+
+  btnPlay.addEventListener('click',()=>{
+    stage.classList.toggle('paused');
+    updateButtons();
+  });
+  btnMode.addEventListener('click',()=>{
+    stage.classList.toggle('day');
+    updateButtons();
+  });
+  btnAspect.addEventListener('click',()=>{
+    stage.classList.toggle('vertical');
+    stage.classList.toggle('horizontal');
+    updateButtons();
+  });
+  updateButtons();
+
+  // Optional: Auto-start animation (looks nicer in recordings)
+  setTimeout(()=>{
+    if(stage.classList.contains('paused')) return;
+    playing = true;
+  }, 200);
+
+  // Fullscreen on double-click for easy recording
+  stage.addEventListener('dblclick', ()=>{
+    if(!document.fullscreenElement){ stage.requestFullscreen().catch(()=>{}); }
+    else{ document.exitFullscreen(); }
+  });
+</script>
+</body>
+</html>
